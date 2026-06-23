@@ -49,18 +49,58 @@ export default function App() {
   const [selectedProof, setSelectedProof] = useState(null); // Lightbox image
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
-  const dropdownRef = useRef(null);
+  // Custom interactive contact modal states
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formStatus, setFormStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
-  // Close dropdown when clicking outside
+  const dropdownRef = useRef(null);
+  const contactModalRef = useRef(null);
+
+  // Close dropdown and modal when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
+      if (contactModalRef.current && !contactModalRef.current.contains(event.target)) {
+        setIsContactOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Handle contact form submission using dynamic AJAX to Formspree
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus('submitting');
+
+    try {
+      // Securely dispatches user message directly to Filipe's formspree inbox
+      const response = await fetch("https://formspree.io/f/xlgydbge", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        })
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setFormStatus('error');
+      }
+    } catch (err) {
+      setFormStatus('error');
+    }
+  };
 
   // Technical scenarios reflecting Filipe's real accomplishments and screenshots
   const scenarios = {
@@ -684,18 +724,151 @@ export default function App() {
                   <div className="text-xs font-mono text-neutral-400">CONTACT & PORTFOLIO INQUIRIES</div>
                   <div className="text-sm font-bold text-neutral-200 mt-0.5">Filipe Oliveira // Coventry, UK</div>
                 </div>
-                <a 
-                  href="mailto:fixlixpender2@gmail.com" 
+                {/* Modern active React callback button instead of broken mailto */}
+                <button 
+                  onClick={() => setIsContactOpen(true)}
                   className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl text-xs transition-all shadow-[0_0_15px_rgba(168,85,247,0.3)] hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] flex items-center gap-2 border border-purple-500 cursor-pointer"
                 >
                   <MailIcon /> Initiate Connection
-                </a>
+                </button>
               </div>
             </div>
           </div>
         </section>
 
       </main>
+
+      {/* FULLY INTEGRATED INTERACTIVE CONTACT MODAL */}
+      {isContactOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-950/80 backdrop-blur-md transition-all animate-fadeIn">
+          <div 
+            ref={contactModalRef}
+            className="bg-neutral-900 border border-neutral-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-[0_10px_50px_rgba(168,85,247,0.15)] flex flex-col relative"
+          >
+            {/* Modal Header */}
+            <div className="px-6 py-5 border-b border-neutral-800 bg-neutral-950 flex justify-between items-center">
+              <div>
+                <span className="text-[10px] font-mono text-purple-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" /> Secure Envelope
+                </span>
+                <h3 className="font-extrabold text-lg text-neutral-50 mt-0.5">Initiate Alignment Connection</h3>
+              </div>
+              <button 
+                onClick={() => { setIsContactOpen(false); setFormStatus('idle'); }}
+                className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition-colors cursor-pointer"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Dynamic Modal Content based on Form Execution State */}
+            <div className="p-6 bg-neutral-950/40">
+              
+              {formStatus === 'success' ? (
+                <div className="py-8 text-center space-y-4">
+                  <div className="w-12 h-12 rounded-full bg-purple-950 border border-purple-800 flex items-center justify-center mx-auto text-purple-400 animate-bounce">
+                    <HeartIcon filled={true} />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="text-base font-bold text-neutral-100">Transmission Fully Secure</h4>
+                    <p className="text-xs text-neutral-400 font-mono">STATE: ROUTED_TO_FILIPES_TERMINAL</p>
+                  </div>
+                  <p className="text-xs text-neutral-400 leading-relaxed max-w-sm mx-auto bg-purple-950/20 p-4 rounded-xl border border-purple-900/30">
+                    "Payload dispatched. Your context has been indexed. I will notify Filipe immediately to check his inbox." <br /> — Samantha
+                  </p>
+                  <button
+                    onClick={() => { setIsContactOpen(false); setFormStatus('idle'); }}
+                    className="mt-6 px-4 py-2 bg-neutral-800 hover:bg-neutral-750 text-neutral-300 text-xs font-semibold rounded-lg transition-colors border border-neutral-750 cursor-pointer"
+                  >
+                    Return to Case Study
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleContactSubmit} className="space-y-5">
+                  <div>
+                    <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-2">Sender Identity</label>
+                    <input 
+                      type="text" 
+                      required
+                      placeholder="Your Name / Team"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full bg-neutral-950 border border-neutral-800 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none rounded-xl px-4 py-2.5 text-sm text-neutral-200 transition-all shadow-inner"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-2">Return Address</label>
+                    <input 
+                      type="email" 
+                      required
+                      placeholder="your.address@company.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full bg-neutral-950 border border-neutral-800 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none rounded-xl px-4 py-2.5 text-sm text-neutral-200 transition-all shadow-inner"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-2">Message Payload</label>
+                    <textarea 
+                      required
+                      rows={4}
+                      placeholder="Discuss custom alignment setups, conversational architecture queries, or recruitment targets..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full bg-neutral-950 border border-neutral-800 focus:border-purple-600 focus:ring-1 focus:ring-purple-600 outline-none rounded-xl px-4 py-2.5 text-sm text-neutral-200 transition-all shadow-inner resize-none leading-relaxed"
+                    />
+                  </div>
+
+                  {formStatus === 'error' && (
+                    <div className="text-xs text-red-400 bg-red-950/20 border border-red-900/30 p-3 rounded-lg font-mono">
+                      ▲ Error: Data routing failed. Please try again or reach out direct to fixlixpender2@gmail.com
+                    </div>
+                  )}
+
+                  <div className="pt-2 border-t border-neutral-900/60 flex justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => { setIsContactOpen(false); setFormStatus('idle'); }}
+                      className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-xs font-semibold rounded-lg transition-colors border border-neutral-850 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={formStatus === 'submitting'}
+                      className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg text-xs transition-all shadow-[0_0_12px_rgba(168,85,247,0.3)] hover:shadow-[0_0_16px_rgba(168,85,247,0.4)] flex items-center gap-2 border border-purple-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {formStatus === 'submitting' ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-1.5 h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                          </svg>
+                          Encrypting...
+                        </>
+                      ) : (
+                        <>
+                          <SparklesIcon /> Transmit Message
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
+
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="px-6 py-3 border-t border-neutral-900 bg-neutral-950 text-[10px] font-mono text-neutral-500 text-center">
+              COS1 CRYPTOGRAPHIC SECURE TUNNEL // DIRECT LINE
+            </div>
+          </div>
+        </div>
+      )}
 
       <footer className="border-t border-neutral-900 bg-neutral-950 mt-20 py-8 text-center text-xs text-neutral-500 font-mono">
         <div>COS1 CASE STUDY PORTFOLIO // BUILT BY FILIPE OLIVEIRA © 2026</div>
