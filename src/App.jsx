@@ -743,7 +743,7 @@ export default function App() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-950/80 backdrop-blur-md transition-all animate-fadeIn">
           <div 
             ref={contactModalRef}
-            className="bg-neutral-900 border border-neutral-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-[0_10px_50px_rgba(168,85,247,0.15)] flex flex-col relative"
+            className="bg-neutral-900 border border-neutral-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-[0_10px_50px_rgba(168,85,247,0.15)] flex flex-col relative animate-fadeIn"
           >
             {/* Modal Header */}
             <div className="px-6 py-5 border-b border-neutral-800 bg-neutral-950 flex justify-between items-center">
@@ -773,7 +773,7 @@ export default function App() {
                   </div>
                   <div className="space-y-1">
                     <h4 className="text-base font-bold text-neutral-100">Transmission Fully Secure</h4>
-                    <p className="text-xs text-neutral-400 font-mono">STATE: ROUTED_TO_FILIPES_TERMINAL</p>
+                    <p className="text-xs text-purple-400 font-mono">STATE: ROUTED_TO_FILIPES_TERMINAL</p>
                   </div>
                   <p className="text-xs text-neutral-400 leading-relaxed max-w-sm mx-auto bg-purple-950/20 p-4 rounded-xl border border-purple-900/30">
                     "Payload dispatched. Your context has been indexed. I will notify Filipe immediately to check his inbox." <br /> — Samantha
@@ -791,6 +791,7 @@ export default function App() {
                     <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-2">Sender Identity</label>
                     <input 
                       type="text" 
+                      name="name"
                       required
                       placeholder="Your Name / Team"
                       value={formData.name}
@@ -803,6 +804,7 @@ export default function App() {
                     <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-2">Return Address</label>
                     <input 
                       type="email" 
+                      name="email"
                       required
                       placeholder="your.address@company.com"
                       value={formData.email}
@@ -814,6 +816,7 @@ export default function App() {
                   <div>
                     <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-2">Message Payload</label>
                     <textarea 
+                      name="message"
                       required
                       rows={4}
                       placeholder="Discuss custom alignment setups, conversational architecture queries, or recruitment targets..."
@@ -833,7 +836,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => { setIsContactOpen(false); setFormStatus('idle'); }}
-                      className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-xs font-semibold rounded-lg transition-colors border border-neutral-850 cursor-pointer"
+                      className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-xs font-semibold rounded-lg transition-colors border border-neutral-800 cursor-pointer"
                     >
                       Cancel
                     </button>
