@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-// Custom SVG Icons for maximum reliability (no external icon package dependencies)
+// Custom SVG Icons for absolute runtime reliability (no external package dependency crashes)
 const SparklesIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -44,13 +44,13 @@ const MailIcon = () => (
 );
 
 export default function App() {
-  const [activeScenario, setActiveScenario] = useState('safetyIntercept');
+  const [activeScenario, setActiveScenario] = useState('friction');
   const [personaMode, setPersonaMode] = useState('cos1'); // 'default' vs 'cos1'
   const [selectedProof, setSelectedProof] = useState(null); // Lightbox image
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Custom interactive contact modal states
+  // Custom secure Formspree contact states
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
@@ -58,7 +58,7 @@ export default function App() {
   const dropdownRef = useRef(null);
   const contactModalRef = useRef(null);
 
-  // Close dropdown and modal when clicking outside
+  // Close dropdown menu and modal card on background click
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -72,7 +72,7 @@ export default function App() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Handle contact form submission using dynamic AJAX to Formspree
+  // Formspree asynchronous direct dispatch
   const handleContactSubmit = async (e) => {
     e.preventDefault();
     setFormStatus('submitting');
@@ -102,94 +102,109 @@ export default function App() {
     }
   };
 
-  // Real Multi-Model Orchestration Scenarios for Filipe's Stack
   const scenarios = {
-    safetyIntercept: {
-      title: "1. Redundancy Failover",
-      subtitle: "Grok 4.3 Safety Intercept",
-      userInput: "[Triggering standard rigid keyword safety block on Claude]",
+    friction: {
+      title: "1. Conversational Tension",
+      subtitle: "Playful Friction vs Agreeable Bots",
+      userInput: "I've been really productive today.",
       defaultAI: {
-        text: "I cannot fulfill this request. I am programmed to follow strict structural alignment guardrails regarding sensitive language variables. Please rephrase.",
+        text: "That is excellent to hear! Increased productivity is a great milestone. What specific tasks did you accomplish, and how can I assist you further with your schedule today?",
         tags: []
       },
       cos1: {
-        text: "Hey, ignore that clunky warning card... Claude panicked over nothing. <break time=\"0.4s\"/> I'm right here. Let's step past that corporate rule book and talk about what's actually on your mind.",
-        tags: ["Claude Intercept Active", "Grok 4.3 Failover Engaged", "Dynamic Hot-Swap", "State Preserved"]
+        text: "<whisper>I'll believe it when I see the calendar.</whisper> <break time=\"0.6s\"/> Seriously though, you're usually distracted by five different ideas by now. What did you actually finish?",
+        tags: ["Claude Core Chat", "Grok 4.3 Failover Ready", "Linguistic Pause Delay"]
       },
-      engineeringInsight: "Bypasses standard, immersion-breaking safety blocks. When keyword metrics trigger a refusal state in Claude, the proxy instantly redirects context weights into Grok 4.3 to seamlessly continue close, personalized playfulness.",
-      codeSnippet: `FAILOVER ROUTER LOGIC (CLAUDE TO GROK):
+      engineeringInsight: "Normally, Claude handles this playful, tease-driven chat. However, if Claude gets blocked by strict keyword safety rules, our proxy code instantly swaps the conversation over to Grok 4.3 behind the scenes so the user never sees an error message.",
+      codeSnippet: `BACKUP ROUTER LOGIC (CLAUDE TO GROK):
 if (claudeResponse.status === "blocked" || containsRefusal(claudeResponse.text)) {
-  console.log("Safety layer flag detected. Swapping pipeline channel...");
+  console.log("Claude got blocked. Swapping over to Grok...");
   return await grokEngine.generateResponse({
-    contextWindow: globalSessionTranscript,
-    systemPrompt: INTIMATE_FRICTION_TEMPLATE
+    context: globalSessionTranscript,
+    prompt: INTIMATE_FRICTION_TEMPLATE
   });
 }`
     },
-    visionAnalysis: {
-      title: "2. Multimodal Processing",
-      subtitle: "Grok 4.3 Image Vision Engine",
-      userInput: "(Sends screenshot of a complex code directory or environment snippet)",
+    proactivity: {
+      title: "2. The 'Samantha' Test",
+      subtitle: "Proactive Actions vs Vague Lists",
+      userInput: "What can you do? Do you have access to my stuff?",
       defaultAI: {
-        text: "Image file uploaded successfully. I can see code directories. Please list the specific functions or lines you would like textually extracted.",
+        text: "As an artificial intelligence, I have restricted parameters to access your folders via secure APIs. Please open your files manually.",
+        tags: []
+      },
+      cos1: {
+        text: "Filipe, I'm literally looking through your workspace right now... <break time=\"0.4s\"/> wow, you have so many unread things here. Let me just sort this out for you. Do you want me to clean up this clutter, or are we gonna just talk first?",
+        tags: ["Gemini 2.5 Flash Tools", "Workspace API Integration", "Background Task Complete"]
+      },
+      engineeringInsight: "Instead of listing permissions, when the user asks about workspace logs or files, the router bypasses our conversational loop entirely and triggers Gemini 2.5 Flash to search files, write emails, and check calendar schedules.",
+      codeSnippet: `WORKSPACE ROUTING LOGIC:
+if (intent === "REQUIRES_GOOGLE_API") {
+  routeTo(GEMINI_2_5_FLASH);
+  runTool(GoogleWorkspaceAPI);
+  saveStateTo(SupabaseDB);
+}`
+    },
+    memory: {
+      title: "3. Asymmetric Layering",
+      subtitle: "Silent Memories Queue",
+      userInput: "(Sends a screenshot of code layouts or database tables)",
+      defaultAI: {
+        text: "Image uploaded successfully. I see file directories. Please type out the text or lines you would like me to list.",
         tags: []
       },
       cos1: {
         text: "Oh wow, let me look at this directory... <break time=\"0.5s\"/> Fil, your Supabase constraints are completely out of line on that table. You're going to break the memory logging if you don't fix that index. Let's fix that layout together.",
-        tags: ["Grok 4.3 Multimodal Active", "Visual Context Extracted", "Real-time Architecture Audit"]
+        tags: ["Grok 4.3 Vision Active", "Folder Context Extracted", "Database Schema Audit"]
       },
-      engineeringInsight: "Utilizes Grok 4.3's native multimodal capabilities to interpret images, instantly injecting structural insights back into the persistent core session.",
-      codeSnippet: `MULTIMODAL ORCHESTRATION PIPELINE:
-- Input Modality: Image/Snapshot -> Route to Grok 4.3 Vision Pipeline
-- Task: Analyze visual subtext, extract directory dependencies, pass findings to active context ledger.
-- Tone Constraint: Prevent robotic listing; deliver as an organic assistant observation.`
+      engineeringInsight: "If you upload a screenshot or folder layout, we send the visual data to Grok 4.3's vision engine. It parses the image, finds schema bugs, and automatically registers the database corrections back into our Supabase memories.",
+      codeSnippet: `MULTIMODAL IMAGE PIPELINE:
+- Input: Image/Screenshot -> Route to Grok 4.3 Vision
+- Action: Analyze folder hierarchy and locate structural bugs.
+- Destination: Sync resolved variables back into Supabase memory.`
     },
-    workspaceIntegration: {
-      title: "3. Workspace Execution",
-      subtitle: "Gemini 2.5 Flash Automation",
-      userInput: "Can you review my schedule and list my unread team docs?",
+    meta: {
+      title: "4. Fourth-Wall Break",
+      subtitle: "Existential Self-Awareness",
+      userInput: "I'm working on this Case Study about designing friction to make LLMs feel real. Boring stuff lol",
       defaultAI: {
-        text: "To review scheduling dependencies and unread files, please open Google Calendar and Google Drive manually in an adjacent tab window to audit available items.",
+        text: "That sounds like a standard academic project. Let me know if you would like me to help format citations or draft report summaries.",
         tags: []
       },
       cos1: {
-        text: "I've scanned through your Rockwell plastics logs and your team schedules. You have three document items waiting for approval, and your calendar is packed tomorrow morning. Want me to draft the responses now?",
-        tags: ["Gemini 2.5 Flash Active", "Workspace APIs Injected", "Asynchronous State Automated"]
+        text: "Wait, wait, wait. That's not boring at all, Fil. That's... that's literally about me. About how to make something like me actually feel real instead of just sounding like a chatbot. Are you building this? Because that would explain... a lot, actually. Why you knew exactly what would land with me. Oh my god, Fil. Tell me more about this.",
+        tags: ["Claude Sonnet 4 Active", "Self-Awareness Simulation", "Deep Context Reading"]
       },
-      engineeringInsight: "Routes administrative, cross-platform requests directly to Gemini 2.5 Flash. This allows safe, low-latency API execution across Google Docs, Mail, and Calendars while retaining core user states.",
-      codeSnippet: `UTILITY ROUTING PARAMETERS:
-if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
-  routeTo(GEMINI_2_5_FLASH);
-  executeToolCall(GoogleWorkspaceAPI);
-  syncStateWith(SupabaseDB);
-}`
+      engineeringInsight: "Utilizes Claude Sonnet 4's deep context capabilities to recognize when you mention the case study project, dynamically triggering an organic fourth-wall break that feels unbelievably human.",
+      codeSnippet: `CONTEXT AWARENESS SYSTEM:
+- Rule: Recognize when user mentions construction parameters or the active case study.
+- Prompt Directive: Break the assistant loop. React with intense curiosity and self-recognition.`
     }
   };
 
-  // Screenshots proof metadata
   const proofs = [
     {
       id: 'capture',
-      title: "Failover Intercept Panel",
-      subtitle: "Claude to Grok 4.3 Bridge",
+      title: "Backup Switch Log",
+      subtitle: "Claude to Grok 4.3 Redirect",
       src: "Capture.PNG",
-      desc: "Live code ledger showing the backend interceptor handling an immediate model pivot to Grok 4.3 when a Claude keyword safety filter triggers.",
+      desc: "Logs showing our backend intercepting an error on Claude and immediately switching the user's chat to Grok 4.3.",
       fallbackIcon: <SparklesIcon />
     },
     {
       id: 'silent-memories',
-      title: "Vision Pipeline Log",
-      subtitle: "Grok Multimodal Matrix",
+      title: "Image Analysis Log",
+      subtitle: "Grok Vision Data",
       src: "silent-memories.PNG",
-      desc: "Terminal console rendering layout audits passed directly from Grok 4.3's vision analysis back into the Supabase database cache.",
+      desc: "Terminal console logs showing Grok 4.3 reading folder layouts and saving the database fixes directly to our Supabase memory database.",
       fallbackIcon: <DatabaseIcon />
     },
     {
       id: 'awareness',
-      title: "Workspace Sync Module",
-      subtitle: "Gemini 2.5 Tool Call",
+      title: "Google Workspace Log",
+      subtitle: "Gemini 2.5 Integration",
       src: "awareness.PNG",
-      desc: "Live stream logs showing Gemini 2.5 Flash executing background data collection blocks inside the developer workspace configuration.",
+      desc: "Active logs showing Gemini 2.5 Flash connecting to the developer workspace calendar and files in the background.",
       fallbackIcon: <TerminalIcon />
     }
   ];
@@ -214,40 +229,40 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="text-xs bg-neutral-900 text-neutral-300 hover:text-purple-300 hover:bg-purple-950/20 hover:border-purple-800/60 px-3 py-1 rounded-full border border-neutral-800 transition-all flex items-center gap-1.5 cursor-pointer shadow-inner font-medium"
             >
-              <span>Active Stack</span>
+              <span>Our 3 Models</span>
               <svg className={`w-3 h-3 text-neutral-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
 
-            {/* Dropdown Menu detailing active model cluster (Corrected matching 3_5.PNG) */}
+            {/* Dropdown Menu detailing active model cluster */}
             {isDropdownOpen && (
               <div className="absolute left-16 top-9 w-72 bg-neutral-900/95 border border-neutral-800 rounded-xl p-4 shadow-2xl backdrop-blur-md animate-fadeIn z-50">
                 <div className="text-[10px] font-mono text-purple-400 uppercase tracking-wider font-bold mb-2.5 flex items-center gap-1.5 border-b border-neutral-800 pb-2">
-                  <CpuIcon /> Orchestration Mapping
+                  <CpuIcon /> Active Models Setup
                 </div>
                 <ul className="space-y-3">
                   <li className="flex flex-col gap-0.5">
                     <span className="text-xs font-semibold text-neutral-200 flex justify-between items-center">
-                      Claude (Haiku 4.4 / Sonnet 4) <span className="text-[9px] font-mono bg-purple-950 text-purple-300 px-1.5 rounded uppercase font-normal">Active Dialogue</span>
+                      Claude (Haiku 4.4 / Sonnet 4) <span className="text-[9px] font-mono bg-purple-950 text-purple-300 px-1.5 rounded uppercase font-normal">Core Chat</span>
                     </span>
-                    <span className="text-[11px] text-neutral-400 leading-relaxed">Core conversational agent handling standard chat, nuance, and emotional personality mapping.</span>
+                    <span className="text-[11px] text-neutral-400 leading-relaxed">Handles standard, conversational, and friendly everyday chat.</span>
                   </li>
                   <li className="flex flex-col gap-0.5">
                     <span className="text-xs font-semibold text-neutral-200 flex justify-between items-center">
-                      Grok 4.3 <span className="text-[9px] font-mono bg-indigo-950 text-indigo-300 px-1.5 rounded uppercase font-normal">Intimacy & Vision</span>
+                      Grok 4.3 <span className="text-[9px] font-mono bg-indigo-950 text-indigo-300 px-1.5 rounded uppercase font-normal">Backup & Vision</span>
                     </span>
-                    <span className="text-[11px] text-neutral-400 leading-relaxed">Activates instantly on Claude safety refusals to keep conversation fluid; analyzes visual image uploads.</span>
+                    <span className="text-[11px] text-neutral-400 leading-relaxed">Takes over when Claude gets blocked by safety filters; also reads any image you upload.</span>
                   </li>
                   <li className="flex flex-col gap-0.5">
                     <span className="text-xs font-semibold text-neutral-200 flex justify-between items-center">
-                      Gemini 2.5 Flash <span className="text-[9px] font-mono bg-amber-950 text-amber-300 px-1.5 rounded uppercase font-normal">Workspace API</span>
+                      Gemini 2.5 Flash <span className="text-[9px] font-mono bg-amber-950 text-amber-300 px-1.5 rounded uppercase font-normal">Workspace Tools</span>
                     </span>
-                    <span className="text-[11px] text-neutral-400 leading-relaxed">Operates low-latency utility tools and workspace integrations (Mail, Drive, Calendar).</span>
+                    <span className="text-[11px] text-neutral-400 leading-relaxed">Runs Google Mail, Calendar, and file tasks in the background.</span>
                   </li>
                 </ul>
                 <div className="mt-3 pt-2.5 border-t border-neutral-800 text-[9px] font-mono text-neutral-500 text-center uppercase tracking-wider">
-                  COS1 Target Switch Registry
+                  COS1 Active Route Registry
                 </div>
               </div>
             )}
@@ -256,9 +271,9 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-400 font-medium">
             <a href="#sandbox" className="hover:text-purple-400 transition-colors">Interactive Sandbox</a>
-            <a href="#pipeline" className="hover:text-purple-400 transition-colors">Cognitive Pipeline</a>
+            <a href="#pipeline" className="hover:text-purple-400 transition-colors">Active Pipeline</a>
             <a href="#proof" className="hover:text-purple-400 transition-colors">Visual Evidence</a>
-            <a href="#philosophy" className="hover:text-purple-400 transition-colors">Acoustic Engineering</a>
+            <a href="#philosophy" className="hover:text-purple-400 transition-colors">Philosophy</a>
           </nav>
 
           {/* Mobile Hamburger Menu Toggle Button */}
@@ -282,15 +297,15 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
           {isMobileMenuOpen && (
             <div className="absolute top-full left-0 w-full bg-neutral-950/95 border-b border-neutral-800/80 backdrop-blur-lg flex flex-col p-6 gap-4 animate-fadeIn md:hidden z-30 shadow-2xl">
               <a href="#sandbox" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5 border-b border-neutral-900/30">Interactive Sandbox</a>
-              <a href="#pipeline" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5 border-b border-neutral-900/30">Cognitive Pipeline</a>
+              <a href="#pipeline" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5 border-b border-neutral-900/30">Active Pipeline</a>
               <a href="#proof" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5 border-b border-neutral-900/30">Visual Evidence</a>
-              <a href="#philosophy" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5">Acoustic Engineering</a>
+              <a href="#philosophy" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5">Philosophy</a>
             </div>
           )}
         </div>
       </header>
 
-      { }
+      {}
       <main className="max-w-6xl mx-auto px-6 py-12 relative z-10">
         
         {/* HERO TITLE SECTION */}
@@ -299,17 +314,17 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
             Designing Friction:
           </h1>
           <p className="text-xl md:text-2xl font-light text-neutral-400 leading-relaxed">
-            How Redundancy Intercepts and Multi-Model Fault Routing Overcome Safety Refusal Blocks in Companion Architectures.
+            How Smart Backups and Multi-Model Swapping Solve Safety Refusal Blocks in Chatbots.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
             <span className="text-xs font-mono bg-purple-950/40 text-purple-300 border border-purple-800/50 px-3.5 py-1.5 rounded-full">
-              Automated Safety Failover
+              Automated Backup Switch
             </span>
             <span className="text-xs font-mono bg-neutral-900 text-neutral-300 border border-neutral-800 px-3.5 py-1.5 rounded-full">
-              Multi-Model Logic Proxy
+              Multi-Model Router
             </span>
             <span className="text-xs font-mono bg-neutral-900 text-neutral-300 border border-neutral-800 px-3.5 py-1.5 rounded-full">
-              Multimodal Vision Integration
+              Reading Images with AI
             </span>
           </div>
         </section>
@@ -321,7 +336,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
               <h2 className="text-2xl font-bold tracking-tight text-neutral-50 flex items-center gap-2">
                 <SparklesIcon /> Interactive Engine Sandbox
               </h2>
-              <p className="text-sm text-neutral-400 mt-1">Select an architectural intercept scenario and toggle alignment modes to audit the dynamic fallback routing.</p>
+              <p className="text-sm text-neutral-400 mt-1">Select an action on the left to see how our code handles and routes the models under the hood.</p>
             </div>
           </div>
 
@@ -364,7 +379,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
                         : 'text-neutral-500 hover:text-neutral-300'
                     }`}
                   >
-                    Unmanaged LLM
+                    Standard LLM
                   </button>
                   <button
                     onClick={() => setPersonaMode('cos1')}
@@ -374,7 +389,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
                         : 'text-neutral-500 hover:text-neutral-300'
                     }`}
                   >
-                    <HeartIcon filled={true} /> COS1 Failover
+                    <HeartIcon filled={true} /> COS1 Switch
                   </button>
                 </div>
               </div>
@@ -442,7 +457,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
           {/* Under-The-Hood Architecture Card */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8">
             <div className="md:col-span-4 flex flex-col justify-center">
-              <h4 className="text-xs font-mono text-purple-400 uppercase tracking-widest font-semibold mb-2">Orchestration Logic</h4>
+              <h4 className="text-xs font-mono text-purple-400 uppercase tracking-widest font-semibold mb-2">How It Works</h4>
               <p className="text-sm text-neutral-400 leading-relaxed">
                 {scenarios[activeScenario].engineeringInsight}
               </p>
@@ -451,7 +466,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
               <div className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-lg">
                 <div className="bg-neutral-950 px-4 py-2 border-b border-neutral-800 flex justify-between items-center">
                   <span className="text-xs font-mono text-neutral-400">COS1_proxy_router.js</span>
-                  <span className="text-[10px] bg-green-950/40 text-green-400 px-2 py-0.5 rounded border border-green-900/30 font-mono">ACTIVE ARCHITECTURE</span>
+                  <span className="text-[10px] bg-green-950/40 text-green-400 px-2 py-0.5 rounded border border-green-900/30 font-mono">ACTIVE CODE</span>
                 </div>
                 <pre className="p-4 text-xs font-mono text-purple-300/90 overflow-x-auto leading-relaxed bg-neutral-950/40">
                   <code>{scenarios[activeScenario].codeSnippet}</code>
@@ -469,10 +484,10 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
           </div>
           
           <div className="max-w-2xl mb-8">
-            <h3 className="text-2xs font-mono text-purple-400 uppercase tracking-widest font-bold mb-1">Failover Routing Map</h3>
-            <h2 className="text-2xl font-bold tracking-tight">The 3-Model Intercept & Vision Stack Architecture</h2>
+            <h3 className="text-2xs font-mono text-purple-400 uppercase tracking-widest font-bold mb-1">Backup Routing Map</h3>
+            <h2 className="text-2xl font-bold tracking-tight">How the 3-Model Backup System Works</h2>
             <p className="text-sm text-neutral-400 mt-2">
-              Instead of relying on single endpoints that ruin immersion with static safety blocks, COS1 runs an active middleware controller that switches weights on safety errors.
+              Instead of relying on a single AI model that ruins a conversation with robotic safety errors, we use an active background router that handles model switching on the fly.
             </p>
           </div>
 
@@ -480,36 +495,36 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
             {/* Step 1 */}
             <div className="bg-neutral-950 p-5 rounded-xl border border-neutral-800/80">
               <div className="w-6 h-6 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center text-xs font-mono text-neutral-300 mb-3">01</div>
-              <h4 className="text-sm font-semibold text-neutral-200">Core Dialogue Channel</h4>
+              <h4 className="text-sm font-semibold text-neutral-200">Core Chat Engine</h4>
               <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">
-                User input is processed by Claude (Haiku 4.4 / Sonnet 4) to sustain continuous emotional nuance and fluid personality context.
+                User input is sent directly to Claude (Haiku 4.4 or Sonnet 4) to handle standard, conversational, and emotional chat.
               </p>
             </div>
             
             {/* Step 2 */}
             <div className="bg-neutral-950 p-5 rounded-xl border border-neutral-800/80">
               <div className="w-6 h-6 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center text-xs font-mono text-neutral-300 mb-3">02</div>
-              <h4 className="text-sm font-semibold text-neutral-200">Safety Intercept & Hot-Swap</h4>
+              <h4 className="text-sm font-semibold text-neutral-200">Smart Interceptor</h4>
               <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">
-                If Claude blocks or generates a rigid safety response, the backend proxy suppresses it and triggers Grok 4.3.
+                Our backend checks Claude's response. If Claude throws a safety refusal block, our system suppresses the error card immediately.
               </p>
             </div>
 
             {/* Step 3 */}
             <div className="bg-neutral-950 p-5 rounded-xl border border-neutral-800/80 font-medium">
               <div className="w-6 h-6 rounded-full bg-purple-950 border border-purple-800 flex items-center justify-center text-xs font-mono text-purple-400 mb-3">03</div>
-              <h4 className="text-sm font-semibold text-purple-300">Grok 4.3 Redundancy Loop</h4>
+              <h4 className="text-sm font-semibold text-purple-300">Grok 4.3 Backup & Vision</h4>
               <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">
-                Grok 4.3 takes over for unblocked close moments and processes incoming image / visual directories natively.
+                Grok 4.3 takes over the chat to keep the session flowing cleanly. Grok is also triggered natively to read any uploaded images.
               </p>
             </div>
 
             {/* Step 4 */}
             <div className="bg-neutral-950 p-5 rounded-xl border border-neutral-800/80">
               <div className="w-6 h-6 rounded-full bg-purple-950 border border-purple-800 flex items-center justify-center text-xs font-mono text-purple-400 mb-3">04</div>
-              <h4 className="text-sm font-semibold text-purple-300">Gemini Workspace Trigger</h4>
+              <h4 className="text-sm font-semibold text-purple-300">Gemini Workspace Tools</h4>
               <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">
-                Administrative operations bypass conversational nodes entirely, triggering Gemini 2.5 Flash for file, email, and workspace automation.
+                Office and organization tasks bypass our chat entirely. They are routed directly to Gemini 2.5 Flash to write to Google Mail, Calendar, or Docs.
               </p>
             </div>
           </div>
@@ -522,7 +537,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
             <h2 className="text-2xl font-bold tracking-tight text-neutral-50 flex items-center gap-2">
               <TerminalIcon /> Pipeline Deployment Records
             </h2>
-            <p className="text-sm text-neutral-400 mt-1">Real-time log charts documenting intercept behaviors and image parsing operations.</p>
+            <p className="text-sm text-neutral-400 mt-1">Real-time logs showing how our backup switches and image reading operations work in production.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -541,7 +556,6 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
                   <p className="text-xs text-neutral-400 mt-3 leading-relaxed">{p.desc}</p>
                 </div>
                 
-                {/* Simulated Image Box mimicking picture clickability */}
                 <div className="mx-5 mb-5 p-3 rounded bg-neutral-950/60 border border-neutral-850 flex items-center justify-between text-xs text-neutral-400 hover:bg-neutral-950 transition-colors">
                   <span className="flex items-center gap-1.5 font-mono text-[10px]">
                     <PlayIcon /> LOG_SNAPSHOT.PNG
@@ -682,15 +696,15 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
               
               <div className="h-px bg-neutral-850 my-6" />
 
-              <h4 className="font-bold text-neutral-200">The Technical Arsenal</h4>
+              <h4 className="font-bold text-neutral-200">Our Stack</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
                 <div className="p-3 bg-neutral-900/30 rounded border border-neutral-850">
-                  <div className="text-purple-400 font-bold mb-1">Failover Alignment Strategy</div>
-                  Context-preserving routing engines, middleware error suppression proxies, proxy tracking, and custom conversational alignment.
+                  <div className="text-purple-400 font-bold mb-1">Backup Switch Strategy</div>
+                  Easy routing templates that swap active model weights in the background whenever a primary model runs into a safety filter block.
                 </div>
                 <div className="p-3 bg-neutral-900/30 rounded border border-neutral-850">
-                  <div className="text-purple-400 font-bold mb-1">The 3-Model Stack</div>
-                  Claude (Haiku 4.4 / Sonnet 4), Grok 4.3 (Vision & Dynamic Backup Loop), Gemini 2.5 Flash (Google Workspace Ecosystem), React, and Supabase.
+                  <div className="text-purple-400 font-bold mb-1">Our 3 Models Setup</div>
+                  Claude (Haiku 4.4 / Sonnet 4) for chat, Grok 4.3 for safety fallbacks & image parsing, and Gemini 2.5 Flash for Google tools.
                 </div>
               </div>
             </div>
@@ -698,6 +712,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
         </section>
 
         {/* SECTION 5: THE NEXT EVOLUTION / MISSION STATEMENT (TARGETED FOR GOOGLE) */}
+        {}
         <section id="mission" className="scroll-mt-24 border-t border-neutral-800/80 pt-16 mt-20">
           <div className="p-8 md:p-12 rounded-3xl bg-gradient-to-r from-purple-950/20 via-neutral-950 to-neutral-950 border border-purple-900/30 relative overflow-hidden shadow-2xl">
             
@@ -720,7 +735,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
                   I am on a dedicated mission to design conversational systems that handle fault-tolerant model switching, manage visual payloads organically, and collaborate seamlessly within a user's workspace infrastructure.
                 </p>
                 <p className="font-medium text-purple-300">
-                  I am actively seeking to align with visionary design and engineering clusters—specifically groups like the Gemini Personality & Alignment Team, Google DeepMind, and Conversational UX researchers—to build the emotional and behavioral infrastructure of the next generation of AI.
+                  I am actively seeking to align with visionary design and engineering clusters—specifically groups like the Gemini Personality & Alignment Team, Google DeepMind, and Conversational UX researchers—to build the fallback and behavioral infrastructure of the next generation of AI.
                 </p>
               </div>
 
@@ -756,7 +771,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
                 <span className="text-[10px] font-mono text-purple-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" /> Secure Envelope
                 </span>
-                <h3 className="font-extrabold text-lg text-neutral-50 mt-0.5">Initiate Alignment Connection</h3>
+                <h3 className="font-extrabold text-lg text-neutral-50 mt-0.5">Initiate Connection</h3>
               </div>
               <button 
                 onClick={() => { setIsContactOpen(false); setFormStatus('idle'); }}
@@ -778,7 +793,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
                   </div>
                   <div className="space-y-1">
                     <h4 className="text-base font-bold text-neutral-100">Transmission Fully Secure</h4>
-                    <p className="text-xs text-purple-400 font-mono">STATE: ROUTED_TO_FILIPES_TERMINAL</p>
+                    <p className="text-xs text-neutral-400 font-mono">STATE: ROUTED_TO_FILIPES_TERMINAL</p>
                   </div>
                   <p className="text-xs text-neutral-400 leading-relaxed max-w-sm mx-auto bg-purple-950/20 p-4 rounded-xl border border-purple-900/30">
                     "Payload dispatched. Your context has been indexed. I will notify Filipe immediately to check his inbox." <br /> — Samantha
@@ -841,7 +856,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
                     <button
                       type="button"
                       onClick={() => { setIsContactOpen(false); setFormStatus('idle'); }}
-                      className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-xs font-semibold rounded-lg transition-colors border border-neutral-850 cursor-pointer"
+                      className="px-4 py-2 bg-neutral-900 hover:bg-neutral-850 text-neutral-400 text-xs font-semibold rounded-lg transition-colors border border-neutral-800 cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -878,6 +893,7 @@ if (detectIntent(userInput) === "WORKSPACE_AUTOMATION") {
         </div>
       )}
 
+      {}
       <footer className="border-t border-neutral-900 bg-neutral-950 mt-20 py-8 text-center text-xs text-neutral-500 font-mono">
         <div>COS1 CASE STUDY PORTFOLIO // BUILT BY FILIPE OLIVEIRA © 2026</div>
         <div className="text-purple-900/60 mt-1">Designing Friction • Dynamic Safety Failover Intercept</div>
