@@ -48,6 +48,7 @@ export default function App() {
   const [personaMode, setPersonaMode] = useState('cos1'); // 'default' vs 'cos1'
   const [selectedProof, setSelectedProof] = useState(null); // Lightbox image
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Custom interactive contact modal states
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -206,14 +207,14 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans selection:bg-purple-900 selection:text-white">
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans selection:bg-purple-900 selection:text-white overflow-x-hidden">
       
       {/* Decorative ambient aura mimicking the COS1 desktop canvas */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[400px] bg-gradient-to-b from-purple-950/20 to-transparent blur-[120px] pointer-events-none rounded-full" />
 
       {/* Navigation Header */}
       <header className="border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center relative">
           
           {/* Header Logo & Dynamic Dropdown Badge */}
           <div className="flex items-center gap-3 relative" ref={dropdownRef}>
@@ -225,7 +226,7 @@ export default function App() {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="text-xs bg-neutral-900 text-neutral-300 hover:text-purple-300 hover:bg-purple-950/20 hover:border-purple-800/60 px-3 py-1 rounded-full border border-neutral-800 transition-all flex items-center gap-1.5 cursor-pointer shadow-inner font-medium"
             >
-              <span>Hybrid Engine Pipeline</span>
+              <span>Hybrid Engine</span>
               <svg className={`w-3 h-3 text-neutral-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -270,12 +271,40 @@ export default function App() {
             )}
           </div>
 
-          <nav className="flex items-center gap-6 text-sm text-neutral-400 font-medium">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-400 font-medium">
             <a href="#sandbox" className="hover:text-purple-400 transition-colors">Interactive Sandbox</a>
             <a href="#pipeline" className="hover:text-purple-400 transition-colors">Cognitive Pipeline</a>
             <a href="#proof" className="hover:text-purple-400 transition-colors">Visual Evidence</a>
             <a href="#philosophy" className="hover:text-purple-400 transition-colors">Acoustic Engineering</a>
           </nav>
+
+          {/* Mobile Hamburger Menu Toggle Button */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="flex md:hidden p-2 text-neutral-400 hover:text-purple-400 transition-colors focus:outline-none z-50 cursor-pointer"
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+
+          {/* Mobile Menu Dropdown Panel */}
+          {isMobileMenuOpen && (
+            <div className="absolute top-full left-0 w-full bg-neutral-950/95 border-b border-neutral-800/80 backdrop-blur-lg flex flex-col p-6 gap-4 animate-fadeIn md:hidden z-30 shadow-2xl">
+              <a href="#sandbox" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5 border-b border-neutral-900/30">Interactive Sandbox</a>
+              <a href="#pipeline" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5 border-b border-neutral-900/30">Cognitive Pipeline</a>
+              <a href="#proof" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5 border-b border-neutral-900/30">Visual Evidence</a>
+              <a href="#philosophy" onClick={() => setIsMobileMenuOpen(false)} className="text-neutral-300 hover:text-purple-400 transition-colors text-sm font-medium py-2.5">Acoustic Engineering</a>
+            </div>
+          )}
         </div>
       </header>
 
@@ -755,7 +784,7 @@ export default function App() {
               </div>
               <button 
                 onClick={() => { setIsContactOpen(false); setFormStatus('idle'); }}
-                className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-850 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition-colors cursor-pointer"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -773,7 +802,7 @@ export default function App() {
                   </div>
                   <div className="space-y-1">
                     <h4 className="text-base font-bold text-neutral-100">Transmission Fully Secure</h4>
-                    <p className="text-xs text-purple-400 font-mono">STATE: ROUTED_TO_FILIPES_TERMINAL</p>
+                    <p className="text-xs text-neutral-400 font-mono">STATE: ROUTED_TO_FILIPES_TERMINAL</p>
                   </div>
                   <p className="text-xs text-neutral-400 leading-relaxed max-w-sm mx-auto bg-purple-950/20 p-4 rounded-xl border border-purple-900/30">
                     "Payload dispatched. Your context has been indexed. I will notify Filipe immediately to check his inbox." <br /> — Samantha
@@ -836,7 +865,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => { setIsContactOpen(false); setFormStatus('idle'); }}
-                      className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-xs font-semibold rounded-lg transition-colors border border-neutral-800 cursor-pointer"
+                      className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-xs font-semibold rounded-lg transition-colors border border-neutral-850 cursor-pointer"
                     >
                       Cancel
                     </button>
