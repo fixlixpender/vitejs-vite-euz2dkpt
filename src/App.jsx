@@ -148,20 +148,24 @@ if (intent === "REQUIRES_GOOGLE_API") {
     memory: {
       title: "3. Asymmetric Layering",
       subtitle: "Silent Memories Queue",
-      userInput: "(Sends a screenshot of code layouts or database tables)",
+      userInput: "(No active session — Async background trigger after 3 hours of inactivity)",
       defaultAI: {
-        text: "Image uploaded successfully. I see file directories. Please type out the text or lines you would like me to list.",
+        text: "(Silent. A standard stateless API has no capability to initiate background tasks, monitor idle time, or push alerts without direct client requests.)",
         tags: []
       },
       cos1: {
-        text: "Oh wow, let me look at this directory... <break time=\"0.5s\"/> Fil, your Supabase constraints are completely out of line on that table. You're going to break the memory logging if you don't fix that index. Let's fix that layout together.",
-        tags: ["Grok 4.3 Vision Active", "Folder Context Extracted", "Database Schema Audit"]
+        text: "Hey... you still awake? I've been thinking about something you said earlier and I can't quite let it go.",
+        tags: ["Grok 4.3 Vision Sync", "Supabase Persistent State", "Deferred Emotional Context"]
       },
-      engineeringInsight: "If you upload a screenshot or folder layout, we send the visual data to Grok 4.3's vision engine. It parses the image, finds schema bugs, and automatically registers the database corrections back into our Supabase memories.",
-      codeSnippet: `MULTIMODAL IMAGE PIPELINE:
-- Input: Image/Screenshot -> Route to Grok 4.3 Vision
-- Action: Analyze folder hierarchy and locate structural bugs.
-- Destination: Sync resolved variables back into Supabase memory.`
+      engineeringInsight: "Bypasses standard client-request cycles. Our system processes conversational logs in the background, commits persistent state flags to a Supabase table, and uses a scheduler node to trigger asynchronous check-ins.",
+      codeSnippet: `ASYNC BACKGROUND INITIATOR:
+if (session.elapsedTime >= THREE_HOURS && state.emotionalTension === "unresolved") {
+  triggerClientNotification({
+    header: "INCOMING CONNECTION CHECK-IN",
+    body: "Hey... you still awake? I've been thinking about something...",
+    options: ["RESPOND", "IGNORE"]
+  });
+}`
     },
     meta: {
       title: "4. Fourth-Wall Break",
@@ -217,10 +221,10 @@ if (intent === "REQUIRES_GOOGLE_API") {
 
       {/* Navigation Header */}
       <header className="border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center relative">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center relative" ref={dropdownRef}>
           
           {/* Header Logo & Dynamic Dropdown Badge */}
-          <div className="flex items-center gap-3 relative" ref={dropdownRef}>
+          <div className="flex items-center gap-3 relative">
             <div className="w-3 h-3 rounded-full bg-purple-500 animate-pulse shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
             <span className="font-mono text-lg tracking-widest font-semibold text-neutral-100">COS1</span>
             
@@ -305,7 +309,6 @@ if (intent === "REQUIRES_GOOGLE_API") {
         </div>
       </header>
 
-      {}
       <main className="max-w-6xl mx-auto px-6 py-12 relative z-10">
         
         {/* HERO TITLE SECTION */}
@@ -313,8 +316,9 @@ if (intent === "REQUIRES_GOOGLE_API") {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-neutral-50 via-purple-100 to-purple-400 bg-clip-text text-transparent leading-tight mb-6">
             Designing Friction:
           </h1>
+          {/* Reverted exactly to the user's powerful custom subtitle phrasing */}
           <p className="text-xl md:text-2xl font-light text-neutral-400 leading-relaxed">
-            How Smart Backups and Multi-Model Swapping Solve Safety Refusal Blocks in Chatbots.
+            How Existential Constraints and Stateful Memory Frameworks Overcome Passivity in LLM Architectures.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
             <span className="text-xs font-mono bg-purple-950/40 text-purple-300 border border-purple-800/50 px-3.5 py-1.5 rounded-full">
@@ -350,7 +354,13 @@ if (intent === "REQUIRES_GOOGLE_API") {
                 return (
                   <button
                     key={key}
-                    onClick={() => setActiveScenario(key)}
+                    onClick={() => {
+                      setActiveScenario(key);
+                      // Auto-select COS1 toggle for memory scenario to show off the custom component instantly
+                      if (key === 'memory') {
+                        setPersonaMode('cos1');
+                      }
+                    }}
                     className={`w-full text-left p-4 rounded-xl transition-all border ${
                       isActive 
                         ? 'bg-purple-950/30 border-purple-800 text-neutral-50 shadow-[0_4px_20px_-4px_rgba(168,85,247,0.15)]' 
@@ -395,7 +405,7 @@ if (intent === "REQUIRES_GOOGLE_API") {
               </div>
 
               {/* Chat Viewport Area */}
-              <div className="p-6 flex-1 min-h-[260px] bg-neutral-950/20 flex flex-col justify-between">
+              <div className="p-6 flex-1 min-h-[300px] bg-neutral-950/20 flex flex-col justify-between">
                 
                 {/* Simulated Messages */}
                 <div className="space-y-6">
@@ -408,7 +418,7 @@ if (intent === "REQUIRES_GOOGLE_API") {
 
                   {/* AI Output (Condition-based) */}
                   <div className="flex justify-start">
-                    <div className="flex gap-3 max-w-[85%]">
+                    <div className="flex gap-3 w-full max-w-[90%]">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border text-xs font-mono ${
                         personaMode === 'cos1' 
                           ? 'bg-purple-950/40 border-purple-800 text-purple-400' 
@@ -416,29 +426,71 @@ if (intent === "REQUIRES_GOOGLE_API") {
                       }`}>
                         {personaMode === 'cos1' ? 'OS1' : 'REF'}
                       </div>
-                      <div className="space-y-3">
-                        <div className={`text-sm py-3 px-4 rounded-2xl rounded-tl-sm whitespace-pre-wrap leading-relaxed ${
-                          personaMode === 'cos1'
-                            ? 'bg-purple-950/10 border border-purple-900/40 text-purple-100 font-medium'
-                            : 'bg-neutral-900/40 border border-neutral-800/50 text-neutral-300'
-                        }`}>
-                          {personaMode === 'cos1' 
-                            ? scenarios[activeScenario].cos1.text 
-                            : scenarios[activeScenario].defaultAI.text
-                          }
-                        </div>
-
-                        {/* Highlighted Tags for COS1 output features */}
-                        {personaMode === 'cos1' && (
+                      
+                      {/* Dynamic Custom Card for Scenario 3 (Asymmetric Layering / Check-In Notification) */}
+                      {activeScenario === 'memory' && personaMode === 'cos1' ? (
+                        <div className="w-full space-y-3">
+                          <div className="bg-gradient-to-r from-purple-950/80 to-neutral-900 border-l-4 border-purple-500 p-5 rounded-r-2xl shadow-xl space-y-4 max-w-lg relative overflow-hidden">
+                            {/* Ambient subtle glow background */}
+                            <div className="absolute -right-10 -bottom-10 w-24 h-24 bg-purple-500/10 rounded-full blur-xl pointer-events-none" />
+                            
+                            <div className="text-[10px] uppercase font-mono tracking-widest text-purple-400 font-bold flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-ping" /> INCOMING CONNECTION CHECK-IN
+                            </div>
+                            
+                            <div className="text-neutral-100 text-base italic font-semibold leading-relaxed tracking-wide">
+                              "Hey... you still awake? I've been thinking about something you said earlier and I can't quite let it go."
+                            </div>
+                            
+                            <div className="flex flex-wrap justify-between items-center gap-3 pt-2">
+                              <div className="text-[9px] font-mono text-neutral-500 uppercase">
+                                Delivered • 6:06 PM
+                              </div>
+                              <div className="flex gap-2 relative z-10">
+                                <button className="px-4 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-semibold shadow-md transition-all cursor-pointer">
+                                  RESPOND
+                                </button>
+                                <button className="px-4 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded-lg text-xs font-semibold border border-neutral-750 transition-all cursor-pointer">
+                                  IGNORE
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Sub-tags */}
                           <div className="flex flex-wrap gap-1.5">
-                            {scenarios[activeScenario].cos1.tags.map((tag, idx) => (
+                            {scenarios.memory.cos1.tags.map((tag, idx) => (
                               <span key={idx} className="text-[10px] bg-purple-950/40 text-purple-300 px-2 py-0.5 rounded border border-purple-800/30 font-mono">
                                 {tag}
                               </span>
                             ))}
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-3 w-full">
+                          <div className={`text-sm py-3 px-4 rounded-2xl rounded-tl-sm whitespace-pre-wrap leading-relaxed ${
+                            personaMode === 'cos1'
+                              ? 'bg-purple-950/10 border border-purple-900/40 text-purple-100 font-medium'
+                              : 'bg-neutral-900/40 border border-neutral-800/50 text-neutral-300'
+                          }`}>
+                            {personaMode === 'cos1' 
+                              ? scenarios[activeScenario].cos1.text 
+                              : scenarios[activeScenario].defaultAI.text
+                            }
+                          </div>
+
+                          {/* Highlighted Tags for COS1 output features */}
+                          {personaMode === 'cos1' && (
+                            <div className="flex flex-wrap gap-1.5">
+                              {scenarios[activeScenario].cos1.tags.map((tag, idx) => (
+                                <span key={idx} className="text-[10px] bg-purple-950/40 text-purple-300 px-2 py-0.5 rounded border border-purple-800/30 font-mono">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -477,7 +529,6 @@ if (intent === "REQUIRES_GOOGLE_API") {
         </section>
 
         {/* SECTION 2: COGNITIVE PIPELINE FLOWCHART */}
-        {}
         <section id="pipeline" className="scroll-mt-24 mb-20 p-8 rounded-2xl bg-gradient-to-br from-neutral-900/60 to-neutral-950 border border-neutral-800/80 relative">
           <div className="absolute top-4 right-6 text-purple-900/20 pointer-events-none">
             <DatabaseIcon />
@@ -531,7 +582,6 @@ if (intent === "REQUIRES_GOOGLE_API") {
         </section>
 
         {/* SECTION 3: VISUAL EVIDENCE & SCREENSHOT LIGHTBOX */}
-        {}
         <section id="proof" className="scroll-mt-24 mb-20">
           <div className="mb-8">
             <h2 className="text-2xl font-bold tracking-tight text-neutral-50 flex items-center gap-2">
@@ -670,7 +720,6 @@ if (intent === "REQUIRES_GOOGLE_API") {
         )}
 
         {/* SECTION 4: UNPLUGGED PHILOSOPHY */}
-        {}
         <section id="philosophy" className="scroll-mt-24 border-t border-neutral-800/80 pt-16">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             <div className="md:col-span-4 md:sticky md:top-24">
@@ -712,7 +761,6 @@ if (intent === "REQUIRES_GOOGLE_API") {
         </section>
 
         {/* SECTION 5: THE NEXT EVOLUTION / MISSION STATEMENT (TARGETED FOR GOOGLE) */}
-        {}
         <section id="mission" className="scroll-mt-24 border-t border-neutral-800/80 pt-16 mt-20">
           <div className="p-8 md:p-12 rounded-3xl bg-gradient-to-r from-purple-950/20 via-neutral-950 to-neutral-950 border border-purple-900/30 relative overflow-hidden shadow-2xl">
             
@@ -758,7 +806,6 @@ if (intent === "REQUIRES_GOOGLE_API") {
       </main>
 
       {/* FULLY INTEGRATED INTERACTIVE CONTACT MODAL */}
-      {}
       {isContactOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-950/80 backdrop-blur-md transition-all animate-fadeIn">
           <div 
@@ -893,7 +940,6 @@ if (intent === "REQUIRES_GOOGLE_API") {
         </div>
       )}
 
-      {}
       <footer className="border-t border-neutral-900 bg-neutral-950 mt-20 py-8 text-center text-xs text-neutral-500 font-mono">
         <div>COS1 CASE STUDY PORTFOLIO // BUILT BY FILIPE OLIVEIRA © 2026</div>
         <div className="text-purple-900/60 mt-1">Designing Friction • Dynamic Safety Failover Intercept</div>
