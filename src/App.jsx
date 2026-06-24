@@ -659,7 +659,7 @@ if (intent === "REQUIRES_GOOGLE_API") {
                             [GEMINI 2.5 FLASH UTILITY CALL]<br />
                             &gt; Accessing Rockwell Plastics Directory Logs...<br />
                             &gt; Parsing unread calendar events...<br />
-                            &gt; 3 active alert parameters synced to Supabase.
+                            &gt; 3 active alert parameters synced to Firestore.
                           </div>
                         </div>
                       </div>
